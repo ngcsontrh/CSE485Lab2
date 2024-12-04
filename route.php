@@ -1,9 +1,9 @@
 <?php
 
-return [
-    '/' => './views/home/index.php',
-    '/home' => './views/home/index.php',
-    './category' => './views/category/index.php',
-    './news' => './views/news/index.php',
-    './user' => './views/user/index.php',
+$routes = [
+    '/' => './views/home/Index.php',
+    '/home' => './views/home/Index.php',
+    '/category' => './views/category/Index.php',
+    '/news' => './views/news/Index.php',
+    '/user' => './views/user/Index.php',
 ];
