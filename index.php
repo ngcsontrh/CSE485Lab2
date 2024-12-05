@@ -1,23 +1,33 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    if (file_exists("controllers/$class.php")) {
-        require_once "controllers/$class.php";
-    } elseif (file_exists("models/$class.php")) {
-        require_once "models/$class.php";
-    }
-});
+function dd($var)
+{
+    echo "<pre>";
+    print_r($var);
+    exit;
+}
 
-$controllerName = isset($_GET['controller']) ? ($_GET['controller']) . 'Controller' : 'HomeController';
-$actionName = isset($_GET['action']) ? $_GET['action'] : 'index';
+$path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
-if (class_exists($controllerName)) {
-    $controller = new $controllerName();
-    if (method_exists($controller, $actionName)) {
-        $controller->$actionName();
+list($controller, $action) = array_pad(explode('/', $path), 2, 'Index');
+
+$controller = $controller ?: 'Home';
+$action = ucfirst($action) ?: 'Index';
+
+$controllerFile = './controllers/' . ucfirst($controller) . "Controller.php";
+
+if (file_exists($controllerFile)) {
+    require_once $controllerFile;
+    $className = ucfirst($controller) . "Controller";
+
+    if (class_exists($className) && method_exists($className, $action)) {
+        $instance = new $className();
+        $instance->$action();
     } else {
-        die("404");
+        http_response_code(404);
+        echo "Action not found!";
     }
 } else {
-    die("404");
+    http_response_code(404);
+    echo "Controller not found!";
 }

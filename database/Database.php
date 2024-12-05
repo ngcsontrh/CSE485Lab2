@@ -1,10 +1,10 @@
 <?php
 
 class Database {
-    private $host = "mysql_app";
+    private $host = "localhost";
     private $dbname = "lab2";
     private $username = "root";
-    private $password = "Trinhson123re.";
+    private $password = "";
 
     function GetConnection() {
         try {
