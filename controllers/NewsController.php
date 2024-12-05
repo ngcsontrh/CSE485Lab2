@@ -23,14 +23,14 @@ class NewsController
         $this->model = new News($db);
     }
 
-    // Hiển thị danh sách tin tức
+    
     public function index()
     {
         $newsList = $this->model->getAllNews();
         require './views/news/Index.php';
     }
 
-    // Hiển thị form thêm tin tức
+    
     public function add()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -46,7 +46,7 @@ class NewsController
         require './views/news/Add.php';
     }
 
-    // Hiển thị form sửa tin tức
+    
     public function edit($id)
     {
         $news = $this->model->getNewsById($id);
@@ -63,7 +63,7 @@ class NewsController
         require './views/news/Edit.php';
     }
 
-    // Xóa tin tức
+    
     public function delete($id)
     {
         $this->model->deleteNews($id);

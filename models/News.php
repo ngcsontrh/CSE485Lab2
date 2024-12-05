@@ -22,7 +22,7 @@ class News
         $this->conn = $db;
     }
 
-    // Lấy danh sách tin tức
+    
     public function getAllNews()
     {
         $query = "SELECT news.*, categories.name AS category_name 
@@ -34,7 +34,7 @@ class News
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy tin tức theo ID
+    
     public function getNewsById($id)
     {
         $query = "SELECT * FROM news WHERE id = :id";
@@ -44,7 +44,7 @@ class News
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Thêm mới tin tức
+    
     public function createNews($data)
     {
         $query = "INSERT INTO news (title, content, image, category_id, created_at) 
@@ -77,7 +77,7 @@ class News
         return $stmt->execute();
     }
 
-    // Xóa tin tức
+    
     public function deleteNews($id)
     {
         $query = "DELETE FROM news WHERE id = :id";
