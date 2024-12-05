@@ -6,7 +6,7 @@ class UserController {
     function Index() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             $id = $_POST['id'];
-            $user = new User();
+            $user = new User(id:$id);
             $user->Delete($id);
             header('Location: /User');
         }
@@ -26,9 +26,15 @@ class UserController {
         require './views/user/Create.php';
     }
 
-    function Edit() {
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            
+    function Update() {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $user = new User();
+            $user->Get($id);
+            require './views/user/Update.php';
+        }
+        else {
+            die('No');
         }
     }
 }
