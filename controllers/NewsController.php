@@ -1,18 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "lab2";
 
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Kết nối cơ sở dữ liệu thất bại: " . $e->getMessage());
-}
-?>
-<?php
-//require_once './models/News.php';
+require_once './models/News.php';
 
 class NewsController
 {
@@ -27,7 +15,7 @@ class NewsController
     public function index()
     {
         $newsList = $this->model->getAllNews();
-        require './views/news/Index.php';
+        require '../views/news/Index.php';
     }
 
     

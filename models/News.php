@@ -1,44 +1,27 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "lab2";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Kết nối cơ sở dữ liệu thất bại: " . $e->getMessage());
-}
-?>
-<?php
-
+require './database/Database.php';
 class News
 {
-    private $conn;
-
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
-
-    
     public function getAllNews()
-    {
+    {   
+        $db = new Database();
+        $conn = $db->GetConnection();
         $query = "SELECT news.*, categories.name AS category_name 
                   FROM news 
                   LEFT JOIN categories ON news.category_id = categories.id
                   ORDER BY news.created_at DESC";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->$conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     
     public function getNewsById($id)
-    {
+    {   
+        $db = new Database();
+        $conn = $db->GetConnection();
         $query = "SELECT * FROM news WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->$conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,10 +29,12 @@ class News
 
     
     public function createNews($data)
-    {
+    {   
+        $db = new Database();
+        $conn = $db->GetConnection();
         $query = "INSERT INTO news (title, content, image, category_id, created_at) 
                   VALUES (:title, :content, :image, :category_id, :created_at)";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->$conn->prepare($query);
 
         $stmt->bindParam(':title', $data['title']);
         $stmt->bindParam(':content', $data['content']);
@@ -62,11 +47,13 @@ class News
 
     // Cập nhật tin tức
     public function updateNews($id, $data)
-    {
+    {   
+        $db = new Database();
+        $conn = $db->GetConnection();
         $query = "UPDATE news 
                   SET title = :title, content = :content, image = :image, category_id = :category_id 
                   WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->$conn->prepare($query);
 
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->bindParam(':title', $data['title']);
@@ -79,9 +66,11 @@ class News
 
     
     public function deleteNews($id)
-    {
+    {   
+        $db = new Database();
+        $conn = $db->GetConnection();
         $query = "DELETE FROM news WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->$conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
