@@ -9,7 +9,7 @@ require './views/layout/header.php';
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
-    <input type="password" required class="form-control" id="password">
+    <input type="password" required class="form-control" name="password" id="password">
   </div>
   <button type="submit" class="btn btn-primary">Create</button>
 </form>

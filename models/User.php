@@ -54,14 +54,10 @@ class User {
                 $this->username = $user['username'];
                 $this->password = $user['password'];
                 $this->role = $user['role'];
-                return $user;
-            } else {
-                return null;
             }
         } catch (Exception $ex) {
             $conn = null;
             error_log($ex->getMessage());
-            return null;
         }
     }
 
@@ -86,24 +82,23 @@ class User {
         }
     }
 
-    function Delete($id) {
+    function Delete() {
         try {
             $db = new Database();
             $conn = $db->GetConnection();
             $stmt = $conn->prepare("DELETE FROM users WHERE id = :id");
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $this->id);
 
             if ($stmt->execute()) {
                 $conn = null;
-                return true;
             } else {
                 $conn = null;
-                return false;
+                die();
             }
         } catch (Exception $ex) {
             $conn = null;
             error_log($ex->getMessage());
-            return false;
+            die();
         }
     }
 
