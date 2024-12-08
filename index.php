@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+session_start();
 
 function dd($var)
 {
@@ -29,10 +31,8 @@ if (file_exists($controllerFile)) {
         $instance = new $className();
         $instance->$action($queryString);
     } else {
-        http_response_code(404);
-        echo "Action not found!";
+        die("404");
     }
 } else {
-    http_response_code(404);
-    echo "Controller not found!";
+    die("404");
 }

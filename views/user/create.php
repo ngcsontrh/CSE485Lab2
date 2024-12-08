@@ -1,12 +1,11 @@
 <?php
 require './views/layout/header.php';
-
 ?>
 
 <form method="POST">
   <div class="mb-3">
     <label for="username" class="form-label">Username</label>
-    <input type="text" required class="form-control" id="username" name="username" value=<?= $user->username ?>>
+    <input type="text" required class="form-control" id="username" name="username">
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
@@ -14,9 +13,12 @@ require './views/layout/header.php';
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Role</label>
-    <input type="text" required class="form-control" disabled name="role" id="role" value=<?= $user->role ?>>
+    <select class="form-select" aria-label="Default select example" name="role">
+      <option value="0">User</option>
+      <option value="1">Admin</option>
+    </select>
   </div>
-  <button type="submit" class="btn btn-primary">Update</button>
+  <button type="submit" class="btn btn-primary">Create</button>
 </form>
 
 <?php

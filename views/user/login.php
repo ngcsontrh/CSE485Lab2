@@ -1,5 +1,5 @@
 <?php
-require './views/layout/header.php';
+require_once './views/layout/header.php';
 ?>
 
 <form method="POST">
@@ -11,9 +11,9 @@ require './views/layout/header.php';
     <label for="password" class="form-label">Password</label>
     <input type="password" required class="form-control" name="password" id="password">
   </div>
-  <button type="submit" class="btn btn-primary">Create</button>
+  <button type="submit" class="btn btn-primary">Login</button>
 </form>
 
 <?php
-require './views/layout/footer.php';
+require_once './views/layout/footer.php';
 ?>
