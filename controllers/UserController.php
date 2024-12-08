@@ -27,7 +27,7 @@ class UserController {
         }
         $users = $this->service->getAll();
         // dd($users);
-        require './views/user/Index.php';
+        require './views/user/index.php';
     }
 
     public function login() : void {
@@ -69,7 +69,7 @@ class UserController {
                 die("Đăng ký người dùng thất bại");
             }
         }
-        require './views/user/Register.php';
+        require './views/user/register.php';
     }
 
     public function logout() : void {
@@ -99,7 +99,7 @@ class UserController {
                 die("Tạo mới người dùng thất bại");
             }
         }
-        require './views/user/Create.php';
+        require './views/user/create.php';
     }
 
     public function update() : void {
@@ -112,7 +112,7 @@ class UserController {
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
             $id = $_GET['id'];
             $user = $this->service->getById($id);
-            require './views/user/Edit.php';
+            require './views/user/edit.php';
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = $_POST['id'];
