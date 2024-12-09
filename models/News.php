@@ -1,78 +1,60 @@
+
 <?php
-require './database/Database.php';
-class News
-{
-    public function getAllNews()
-    {   
-        $db = new Database();
-        $conn = $db->GetConnection();
-        $query = "SELECT news.*, categories.name AS category_name 
-                  FROM news 
-                  LEFT JOIN categories ON news.category_id = categories.id
-                  ORDER BY news.created_at DESC";
-        $stmt = $this->$conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    class News{
+        private $id =0;
+        private $title;
+        private $content;
+        private $image;
+        private $created_at;
+        private $category_name;
 
-    
-    public function getNewsById($id)
-    {   
-        $db = new Database();
-        $conn = $db->GetConnection();
-        $query = "SELECT * FROM news WHERE id = :id";
-        $stmt = $this->$conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+        public function __construct($id, $title, $content, $image, $created_at, $category_name){
+            $this->id = $id;
+            $this->title = $title;
+            $this->content = $content;
+            $this->image = $image;
+            $this->created_at = $created_at;
+            $this->category_name = $category_name;
 
-    
-    public function createNews($data)
-    {   
-        $db = new Database();
-        $conn = $db->GetConnection();
-        $query = "INSERT INTO news (title, content, image, category_id, created_at) 
-                  VALUES (:title, :content, :image, :category_id, :created_at)";
-        $stmt = $this->$conn->prepare($query);
+        }
 
-        $stmt->bindParam(':title', $data['title']);
-        $stmt->bindParam(':content', $data['content']);
-        $stmt->bindParam(':image', $data['image']);
-        $stmt->bindParam(':category_id', $data['category_id']);
-        $stmt->bindParam(':created_at', date('Y-m-d H:i:s'));
+        public function getId(){
+            return $this->id;
+        }
 
-        return $stmt->execute();
-    }
+        public function getTitle(){
+            return $this->title;
+        }
+        public function getContent(){
+            return $this->content;
+        }
+        public function getImage(){
+            return $this->image;
+        }
+        public function getCreatedAt(){
+            return $this->created_at;
+        }
+        public function getCategoryName(){
+            return $this->category_name;
+        }
+        public function setId($id){
+            $this->id = $id;
+        }
+        public function setTitle($title){
+            $this->title = $title;
+        }
+        public function setContent($content){
+            $this->content = $content;
+        }
+        public function setImage($image){
+            $this->image = $image;
+        }
+        public function setCreated_at($created_at){
+            $this->created_at = $created_at;
+        }
+        public function setCategoryName($category_name){
+            $this->category_name = $category_name;
+        }
 
-    // Cập nhật tin tức
-    public function updateNews($id, $data)
-    {   
-        $db = new Database();
-        $conn = $db->GetConnection();
-        $query = "UPDATE news 
-                  SET title = :title, content = :content, image = :image, category_id = :category_id 
-                  WHERE id = :id";
-        $stmt = $this->$conn->prepare($query);
 
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':title', $data['title']);
-        $stmt->bindParam(':content', $data['content']);
-        $stmt->bindParam(':image', $data['image']);
-        $stmt->bindParam(':category_id', $data['category_id']);
-
-        return $stmt->execute();
-    }
-
-    
-    public function deleteNews($id)
-    {   
-        $db = new Database();
-        $conn = $db->GetConnection();
-        $query = "DELETE FROM news WHERE id = :id";
-        $stmt = $this->$conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-}
-?>
+    } 
