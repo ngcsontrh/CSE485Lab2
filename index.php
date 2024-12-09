@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+session_start();
 
 function dd($var)
 {
@@ -8,6 +10,11 @@ function dd($var)
 }
 
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$queryString = [];
+$query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+if ($query !== null) {
+    parse_str($query, $queryString);
+}
 
 list($controller, $action) = array_pad(explode('/', $path), 2, 'Index');
 
@@ -22,12 +29,10 @@ if (file_exists($controllerFile)) {
 
     if (class_exists($className) && method_exists($className, $action)) {
         $instance = new $className();
-        $instance->$action();
+        $instance->$action($queryString);
     } else {
-        http_response_code(404);
-        echo "Action not found!";
+        die("404");
     }
 } else {
-    http_response_code(404);
-    echo "Controller not found!";
+    die("404");
 }
