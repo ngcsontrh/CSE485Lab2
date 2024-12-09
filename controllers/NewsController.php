@@ -47,7 +47,7 @@
             $news = new News(1,$title,$content,$image,$created_at,$category_name);   
             $newsService = new NewsService();
             $newsService->addNews($news);
-            header("Location: index.php?controller=news&action=index");
+            header("Location: /News");
         }
 
         public function edit(){
