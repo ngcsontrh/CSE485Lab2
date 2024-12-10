@@ -1,61 +1,79 @@
 <?php
+    require_once("./models/News.php");
+    require_once("./services/NewsService.php");
+    class NewsController{
+        public function index(){
+            $tmp = isset($_GET["page"]) ? ($_GET["page"]) : 1;
 
-require_once './models/News.php';
-
-class NewsController
-{
-    private $model;
-
-    public function __construct($db)
-    {
-        $this->model = new News($db);
-    }
-
-    
-    public function index()
-    {
-        $newsList = $this->model->getAllNews();
-        require '../views/news/Index.php';
-    }
-
-    
-    public function add()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'title' => $_POST['title'],
-                'content' => $_POST['content'],
-                'image' => $_POST['image'],
-                'category_id' => $_POST['category_id']
-            ];
-            $this->model->createNews($data);
-            header('Location: index.php?controller=news&action=index');
+            $newsService = new NewsService();
+            $newsList = $newsService->getAllNews($tmp);
+            include ("./view/news/index.php");
         }
-        require './views/news/Add.php';
-    }
 
-    
-    public function edit($id)
-    {
-        $news = $this->model->getNewsById($id);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'title' => $_POST['title'],
-                'content' => $_POST['content'],
-                'image' => $_POST['image'],
-                'category_id' => $_POST['category_id']
-            ];
-            $this->model->updateNews($id, $data);
-            header('Location: index.php?controller=news&action=index');
+        public function show(){
+            $newsService = new NewsService();
+            $news = $newsService->getNewsByID($_GET["id"]);
+            include ("./view/news/show.php");
         }
-        require './views/news/Edit.php';
+
+        public function create(){
+
+            include ('./view/news/create.php');
+        }
+        public function store(){
+            $title = $_POST['title'];
+            $content = $_POST['content'];
+            $image = $_FILES['image']['name'];
+
+            $picture_name = $_FILES['image']['name'];
+            $picture_type = $_FILES['image']['type'];
+            $picture_error= $_FILES['image']['error'];
+            $picture_temp = $_FILES['image']['tmp_name'];
+
+            $picture_path="C:/laragon/www/CSE485Lab2/images/";
+
+            if(is_uploaded_file($picture_temp)){
+                try{
+                    move_uploaded_file($picture_temp,$picture_path.$picture_name);
+                
+                }
+                catch(Exception $e){
+                    echo $e->getMessage();
+                }
+            }
+
+            $created_at = '2024-12-21';
+            $category_name="abc";
+            $news = new News(1,$title,$content,$image,$created_at,$category_name);   
+            $newsService = new NewsService();
+            $newsService->addNews($news);
+            header("Location: /News");
+        }
+
+        public function edit(){
+            $newsService = new NewsService();
+            $news = $newsService->getNewsByID($_GET['id']);
+            include ('./view/news/edit.php');
+        }
+            
+        public function update(){
+           
+            $newsService = new NewsService();
+            $title = $_POST['title'];
+            $content = $_POST['content'];
+            $image = $_FILES['image']['name'];
+            $created_at = '2024-12-21';
+            $category_name="abc";
+            $news = new News(1,$title,$content,$image,$created_at,$category_name);
+            $newsService->editNews($_GET['id'],$news);
+            header('Location:index.php');
     }
 
-    
-    public function delete($id)
-    {
-        $this->model->deleteNews($id);
-        header('Location: index.php?controller=news&action=index');
-    }
+        public function destroy(){
+            $newsService = new NewsService();
+            $id = $_GET['id'];
+            $newsService->deleteNewsById($id);
+            header('Location:index.php');
+        }
 }
 ?>
