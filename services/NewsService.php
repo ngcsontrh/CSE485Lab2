@@ -1,7 +1,7 @@
 
 <?php
-    require_once("./models/News.php");
     require_once("./database/Database.php");
+    require_once("./models/News.php");
     class NewsService{
         public function getAllNews($page){
             $page = max($page, 1); 
@@ -9,7 +9,11 @@
             try{
                 $db = new Database();
                 $conn = $db->getConnection();
-                $sql = "SELECT NEWS.id,title,content,image,created_at,name FROM NEWS.NEWS JOIN NEWS.CATEGORIES ON NEWS.CATEGORY_ID = CATEGORIES.ID  order by news.id desc limit 5 offset $offset";
+                $sql = "SELECT id, title, content, image, created_at, name
+FROM NEWS 
+JOIN CATEGORIES 
+ON CATEGORY_ID = CATEGORIES.ID;
+  order by news.id desc limit 5 offset $offset";
                 $stmt= $conn->prepare($sql);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

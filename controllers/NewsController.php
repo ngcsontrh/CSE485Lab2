@@ -1,5 +1,4 @@
 <?php
-    require_once("./models/News.php");
     require_once("./services/NewsService.php");
     class NewsController{
         public function index(){
@@ -13,7 +12,7 @@
         public function show(){
             $newsService = new NewsService();
             $news = $newsService->getNewsByID($_GET["id"]);
-            include ("./view/news/show.php");
+            include ("./view/news/index.php");
         }
 
         public function create(){
